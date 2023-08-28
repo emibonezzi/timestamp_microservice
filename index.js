@@ -25,9 +25,9 @@ app.get("/api/hello", function (req, res) {
 });
 
 // timestamp API
-app.get("/api/:input", function (req, res) {
+app.get("/api/:date", function (req, res) {
   // convert input to date
-  const user_input = new Date(Number(req.params.input) ? Number(req.params.input) : req.params.input)
+  const user_input = new Date(Number(req.params.date) ? Number(req.params.date) : req.params.date)
   if (user_input.toString() === "Invalid Date") {
     res.json({error: user_input.toString()})
   } else {
@@ -35,7 +35,14 @@ app.get("/api/:input", function (req, res) {
   }
 });
 
+app.get("/api", function(req, res) {
+  const today = new Date()
+  res.json({unix: today.getTime(), utc: today.toUTCString()})
+});
+
 app.use(express.static(__dirname + '/api'))
+
+
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
